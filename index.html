@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet-svg-shape-markers.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="data/Property_1.js"></script>
+        <script src="data/Lateralline_2.js"></script>
+        <script src="data/PressurisedMain_3.js"></script>
+        <script src="data/SystemValve_4.js"></script>
+        <script src="data/Watermeter_5.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-33.98795007508309,18.458037670917836],[-33.9735752160634,18.480990722685966]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>');
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            opacity: 1.0,
+            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+        });
+        layer_OSMStandard_0;
+        map.addLayer(layer_OSMStandard_0);
+        function pop_Property_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">SG26 Code</th>\
+                        <td>' + (feature.properties['SG26_CODE'] !== null ? Autolinker.link(String(feature.properties['SG26_CODE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ISIS Key</th>\
+                        <td>' + (feature.properties['SL_LAND_PR'] !== null ? Autolinker.link(String(feature.properties['SL_LAND_PR'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Address Number</th>\
+                        <td>' + (feature.properties['ADR_NO'] !== null ? Autolinker.link(String(feature.properties['ADR_NO'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Adress Number Suffix</th>\
+                        <td>' + (feature.properties['ADR_NO_SFX'] !== null ? Autolinker.link(String(feature.properties['ADR_NO_SFX'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Street Name</th>\
+                        <td>' + (feature.properties['STR_NAME'] !== null ? Autolinker.link(String(feature.properties['STR_NAME'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Street Name Type</th>\
+                        <td>' + (feature.properties['LU_STR_NAM'] !== null ? Autolinker.link(String(feature.properties['LU_STR_NAM'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Surburb</th>\
+                        <td>' + (feature.properties['OFC_SBRB_N'] !== null ? Autolinker.link(String(feature.properties['OFC_SBRB_N'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Property Number</th>\
+                        <td>' + (feature.properties['PRTY_NMBR'] !== null ? Autolinker.link(String(feature.properties['PRTY_NMBR'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Zoning</th>\
+                        <td>' + (feature.properties['ZONING'] !== null ? Autolinker.link(String(feature.properties['ZONING'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Property_1_0() {
+            return {
+                pane: 'pane_Property_1',
+                opacity: 1,
+                color: 'rgba(165,165,165,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+            }
+        }
+        map.createPane('pane_Property_1');
+        map.getPane('pane_Property_1').style.zIndex = 401;
+        map.getPane('pane_Property_1').style['mix-blend-mode'] = 'normal';
+        var layer_Property_1 = new L.geoJson(json_Property_1, {
+            attribution: '',
+            pane: 'pane_Property_1',
+            onEachFeature: pop_Property_1,
+            style: style_Property_1_0,
+        });
+        bounds_group.addLayer(layer_Property_1);
+        map.addLayer(layer_Property_1);
+        function pop_Lateralline_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Administrative Area</th>\
+                        <td>' + (feature.properties['ADMINISTRA'] !== null ? Autolinker.link(String(feature.properties['ADMINISTRA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Installation Date</th>\
+                        <td>' + (feature.properties['INSTALLDAT'] !== null ? Autolinker.link(String(feature.properties['INSTALLDAT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Operational Area</th>\
+                        <td>' + (feature.properties['OPERATIONA'] !== null ? Autolinker.link(String(feature.properties['OPERATIONA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Lifecycle Status</th>\
+                        <td>' + (feature.properties['LIFECYCLES'] !== null ? Autolinker.link(String(feature.properties['LIFECYCLES'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Sub-Type</th>\
+                        <td>' + (feature.properties['SUBTYPE'] !== null ? Autolinker.link(String(feature.properties['SUBTYPE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Water Type</th>\
+                        <td>' + (feature.properties['WATERTYPE'] !== null ? Autolinker.link(String(feature.properties['WATERTYPE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Material</th>\
+                        <td>' + (feature.properties['MATERIAL'] !== null ? Autolinker.link(String(feature.properties['MATERIAL'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Diameter</th>\
+                        <td>' + (feature.properties['DIAMETER'] !== null ? Autolinker.link(String(feature.properties['DIAMETER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Type</th>\
+                        <td>' + (feature.properties['TYPE'] !== null ? Autolinker.link(String(feature.properties['TYPE'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Lateralline_2_0() {
+            return {
+                pane: 'pane_Lateralline_2',
+                opacity: 1,
+                color: 'rgba(21,125,243,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+            }
+        }
+        map.createPane('pane_Lateralline_2');
+        map.getPane('pane_Lateralline_2').style.zIndex = 402;
+        map.getPane('pane_Lateralline_2').style['mix-blend-mode'] = 'normal';
+        var layer_Lateralline_2 = new L.geoJson(json_Lateralline_2, {
+            attribution: '',
+            pane: 'pane_Lateralline_2',
+            onEachFeature: pop_Lateralline_2,
+            style: style_Lateralline_2_0,
+        });
+        bounds_group.addLayer(layer_Lateralline_2);
+        map.addLayer(layer_Lateralline_2);
+        function pop_PressurisedMain_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Administrative Area</th>\
+                        <td>' + (feature.properties['ADMINISTRA'] !== null ? Autolinker.link(String(feature.properties['ADMINISTRA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Facility ID</th>\
+                        <td>' + (feature.properties['FACILITYID'] !== null ? Autolinker.link(String(feature.properties['FACILITYID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SAP ID</th>\
+                        <td>' + (feature.properties['SAP_ID'] !== null ? Autolinker.link(String(feature.properties['SAP_ID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Installation Date</th>\
+                        <td>' + (feature.properties['INSTALLDAT'] !== null ? Autolinker.link(String(feature.properties['INSTALLDAT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Life Cycle</th>\
+                        <td>' + (feature.properties['LIFECYCLES'] !== null ? Autolinker.link(String(feature.properties['LIFECYCLES'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Water Type</th>\
+                        <td>' + (feature.properties['WATERTYPE'] !== null ? Autolinker.link(String(feature.properties['WATERTYPE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Material</th>\
+                        <td>' + (feature.properties['MATERIAL'] !== null ? Autolinker.link(String(feature.properties['MATERIAL'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Pipe Class</th>\
+                        <td>' + (feature.properties['PIPECLASS'] !== null ? Autolinker.link(String(feature.properties['PIPECLASS'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Depth</th>\
+                        <td>' + (feature.properties['DEPTH'] !== null ? Autolinker.link(String(feature.properties['DEPTH'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TYPE</th>\
+                        <td>' + (feature.properties['TYPE'] !== null ? Autolinker.link(String(feature.properties['TYPE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Status</th>\
+                        <td>' + (feature.properties['STATUS'] !== null ? Autolinker.link(String(feature.properties['STATUS'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PressurisedMain_3_0() {
+            return {
+                pane: 'pane_PressurisedMain_3',
+                opacity: 1,
+                color: 'rgba(72,123,182,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+            }
+        }
+        map.createPane('pane_PressurisedMain_3');
+        map.getPane('pane_PressurisedMain_3').style.zIndex = 403;
+        map.getPane('pane_PressurisedMain_3').style['mix-blend-mode'] = 'normal';
+        var layer_PressurisedMain_3 = new L.geoJson(json_PressurisedMain_3, {
+            attribution: '',
+            pane: 'pane_PressurisedMain_3',
+            onEachFeature: pop_PressurisedMain_3,
+            style: style_PressurisedMain_3_0,
+        });
+        bounds_group.addLayer(layer_PressurisedMain_3);
+        map.addLayer(layer_PressurisedMain_3);
+        function pop_SystemValve_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Administrative Area</th>\
+                        <td>' + (feature.properties['ADMINISTRA'] !== null ? Autolinker.link(String(feature.properties['ADMINISTRA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Facility ID</th>\
+                        <td>' + (feature.properties['FACILITYID'] !== null ? Autolinker.link(String(feature.properties['FACILITYID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Installation Date</th>\
+                        <td>' + (feature.properties['INSTALLDAT'] !== null ? Autolinker.link(String(feature.properties['INSTALLDAT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Operational Area</th>\
+                        <td>' + (feature.properties['OPERATIONA'] !== null ? Autolinker.link(String(feature.properties['OPERATIONA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Rotation</th>\
+                        <td>' + (feature.properties['ROTATION'] !== null ? Autolinker.link(String(feature.properties['ROTATION'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Water Type</th>\
+                        <td>' + (feature.properties['WATERTYPE'] !== null ? Autolinker.link(String(feature.properties['WATERTYPE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Diameter</th>\
+                        <td>' + (feature.properties['DIAMETER'] !== null ? Autolinker.link(String(feature.properties['DIAMETER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Type</th>\
+                        <td>' + (feature.properties['TYPE'] !== null ? Autolinker.link(String(feature.properties['TYPE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Old ID</th>\
+                        <td>' + (feature.properties['OLDID'] !== null ? Autolinker.link(String(feature.properties['OLDID'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_SystemValve_4_0() {
+            return {
+                pane: 'pane_SystemValve_4',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(183,72,75,1.0)',
+            }
+        }
+        map.createPane('pane_SystemValve_4');
+        map.getPane('pane_SystemValve_4').style.zIndex = 404;
+        map.getPane('pane_SystemValve_4').style['mix-blend-mode'] = 'normal';
+        var layer_SystemValve_4 = new L.geoJson(json_SystemValve_4, {
+            attribution: '',
+            pane: 'pane_SystemValve_4',
+            onEachFeature: pop_SystemValve_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_SystemValve_4_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_SystemValve_4);
+        map.addLayer(layer_SystemValve_4);
+        function pop_Watermeter_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Facility ID</th>\
+                        <td>' + (feature.properties['FACILITYID'] !== null ? Autolinker.link(String(feature.properties['FACILITYID'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Installation Date</th>\
+                        <td>' + (feature.properties['INSTALLDAT'] !== null ? Autolinker.link(String(feature.properties['INSTALLDAT'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Administrative Area</th>\
+                        <td>' + (feature.properties['ADMINISTRA'] !== null ? Autolinker.link(String(feature.properties['ADMINISTRA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Operational Area</th>\
+                        <td>' + (feature.properties['OPERATIONA'] !== null ? Autolinker.link(String(feature.properties['OPERATIONA'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Life Cycle</th>\
+                        <td>' + (feature.properties['LIFECYCLES'] !== null ? Autolinker.link(String(feature.properties['LIFECYCLES'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Sub-Type</th>\
+                        <td>' + (feature.properties['SUBTYPE'] !== null ? Autolinker.link(String(feature.properties['SUBTYPE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Water Type</th>\
+                        <td>' + (feature.properties['WATERTYPE'] !== null ? Autolinker.link(String(feature.properties['WATERTYPE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Diameter</th>\
+                        <td>' + (feature.properties['DIAMETER'] !== null ? Autolinker.link(String(feature.properties['DIAMETER'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LIS Key</th>\
+                        <td>' + (feature.properties['LIS_KEY'] !== null ? Autolinker.link(String(feature.properties['LIS_KEY'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Erven Code</th>\
+                        <td>' + (feature.properties['ERVENCDE'] !== null ? Autolinker.link(String(feature.properties['ERVENCDE'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SG21 Code</th>\
+                        <td>' + (feature.properties['SG21CDE'] !== null ? Autolinker.link(String(feature.properties['SG21CDE'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Watermeter_5_0() {
+            return {
+                pane: 'pane_Watermeter_5',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(50,87,128,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(34,90,154,1.0)',
+            }
+        }
+        map.createPane('pane_Watermeter_5');
+        map.getPane('pane_Watermeter_5').style.zIndex = 405;
+        map.getPane('pane_Watermeter_5').style['mix-blend-mode'] = 'normal';
+        var layer_Watermeter_5 = new L.geoJson(json_Watermeter_5, {
+            attribution: '',
+            pane: 'pane_Watermeter_5',
+            onEachFeature: pop_Watermeter_5,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Watermeter_5_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Watermeter_5);
+        map.addLayer(layer_Watermeter_5);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Watermeter_5.png" /> Water meter': layer_Watermeter_5,'<img src="legend/SystemValve_4.png" /> System Valve': layer_SystemValve_4,'<img src="legend/PressurisedMain_3.png" /> Pressurised Main': layer_PressurisedMain_3,'<img src="legend/Lateralline_2.png" /> Lateral line': layer_Lateralline_2,'<img src="legend/Property_1.png" /> Property': layer_Property_1,"OSM Standard": layer_OSMStandard_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
